@@ -2,18 +2,143 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomeController extends AbstractController
 {
-    // attribute
-    #[Route('/home', name: 'app_home')]
-    public function index(): Response
+    // // attribute = #
+    // #[Route('/home/{nom}', name: 'app_home')]
+    // public function index(string $nom): Response
+    // {
+    //     return $this->render('home/index.html.twig', [
+    //         'controller_name' => "$nom",
+    //     ]);
+    // }
+    // // permet de définir une priorité d'ordre
+    // #[Route('/home/index', name: 'app_home2', priority: 3)]
+    // public function index2(): Response
+    // {
+    //     return $this->render('home/index.html.twig', [
+    //         'controller_name' => "xxx",
+    //     ]);
+    // }
+    // // Générer des paramètre optionnels
+    // #[Route('/home/{nom?}', name: 'app_home')]
+    // public function index3(?string $nom): Response
+    // {
+    //     return $this->render('home/index.html.twig', [
+    //         'controller_name' => "$nom",
+    //     ]);
+    // }
+
+    // // annotation = @
+    // /**
+    //  * @Route("/home", name="app_home")
+    //  */
+    // public function index(): Response
+    // {
+    //     return $this->render('home/index.html.twig', [
+    //         'controller_name' => 'HomeController',
+    //     ]);
+    // }
+
+    // // Avec fichier Yaml et php
+    // public function index(): Response
+    // {
+    //     return $this->render('home/index.html.twig', [
+    //         'controller_name' => 'HomeController',
+    //     ]);
+    // }
+
+    // paramètre par défaut
+    // #[Route('/home/{age}', name: "home_route", defaults: ["nom" => "doe", "prenom" => "john"])]
+    // public function index4(int $age, string $nom, string $prenom): Response
+    // {
+    //     return $this->render('home/index.html.twig', [
+    //         'controller_name' => "$age $nom $prenom",
+    //     ]);
+    // }
+
+    //Récupération d'un paramètre avec l'objet request
+    #[Route('/home/{nom}/{prenom}')]
+    public function index(Request $request): Response
     {
+        $nom = $request->get('nom');
+        $prenom = $request->get('prenom');
         return $this->render('home/index.html.twig', [
-            'controller_name' => 'HomeController',
+            'controller_name' => "$prenom $nom",
         ]);
     }
+
+    // // Récuparation de tous les paramètres : 
+    // #[Route('/home/{prenom}/{nom}', name: "home_route")]
+    // public function index(Request $request): Response
+    // {
+    //     $params = $request->get('_route_params');
+    //     return $this->render('home/index.html.twig', [
+    //         'controller_name' => implode(" ", $params),
+    //     ]);
+    // }
+
+    // // paramètre hors route : 
+    // #[Route('/home')]
+    // public function index(Request $request): Response
+    // {
+    //     $nom = $request->query->get('nom');
+    //     $prenom = $request->get('prenom');
+    //     return $this->render('home/index.html.twig', [
+    //         'controller_name' => "$prenom, $nom",
+    //     ]);
+    // }
+    // #[Route('/nom/{nom}/prenom/{prenom}')]
+    // public function index2(string $nom, string $prenom): Response
+    // {
+    //     return $this->render('home/index.html.twig', [
+    //         'controller_name' => "$prenom, $nom",
+    //     ]);
+    // }
+
+    // // Request all : 
+    // #[Route('/home')]
+    // public function index(Request $request): Response
+    // {
+    //     $params = $request->query->all();
+    //     return $this->render('home/index.html.twig', [
+    //         'controller_name' => implode(" ", $params),
+    //     ]);
+    // }
+
+    // #[Route('/nom/{nom}/prenom/{prenom}')]
+    // public function index2(string $nom, string $prenom): Response
+    // {
+    //     return $this->render('home/index.html.twig', [
+    //         'controller_name' => "$prenom, $nom",
+    //     ]);
+    // }
+
+    // // Récupérer le nom de la route:
+    // #[Route('/home', name:'home')]
+    // #[Route('/accueil', name:'accueil')]
+    // public function home(Request $request): Response
+    // {
+    //     $route = $request->get('_route');
+    //     return $this->render('home/index.html.twig', [
+    //         'controller_name' => "$route",
+    //     ]);
+    // }
+
+    // Methode HTTP
+    // #[Route('/home', name:'home')]
+    // #[Route('/accueil', name:'accueil', methods:['GET', 'POST'])]
+    // public function home(Request $request): Response
+    // {
+    //     $route = $request->get('_route');
+    //     return $this->render('home/index.html.twig', [
+    //         'controller_name' => "$route",
+    //     ]);
+    // }
+
 }
