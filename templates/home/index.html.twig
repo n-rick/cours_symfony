@@ -38,16 +38,31 @@
 				{{ personne.id }}
 			</li>
 			<li>
-				{{ personne.getNom() }}
+				{{ personne.getNom() | upper }}
 			</li>
 			<li>
 				{{ personne.prenom() }}
 			</li>
 			{# concaténation#}
 			<li>
-				{{ personne.prenom ~ " " ~ personne.nom }}
+				{{ (personne.prenom ~ " " ~ personne.nom ) | title}}
 			</li>
 			{{ dump(personne) }}
+			<li>
+				{{ " dalton  " | length  }}
+			</li>
+			<li>
+				{{ " dalton  " | trim | length  }}
+			</li>
+			<li>
+				{{ " dalton  " | trim(side="left") | length  }}
+			</li>
+			<li>
+				{% apply upper %}
+				Bonjour
+				{{ personne.prenom }}
+				{% endapply %}
+			</li>
 		</ul>
 
 		{# effectuer une déclaration de variable dans la vue twig #}
@@ -178,5 +193,96 @@
 				</li>
 			{% endfor %}
 		</ul>
+		{# Dans la vue afficher tous les élements qui ne sont ni pair, ni à la première position, ni à la dernière position #}
+		{% for elt in tableau %}
+			{{ elt }}
+		{% endfor %}
+		<ul>
+			{% for elt in tableau %}
+				{% if elt is not even and elt != loop.first and elt != loop.last  %}
+					<li>{{ elt }}</li>
+				{% endif %}
+			{% endfor %}
+		</ul>
+		{# avec les filters #}
+		<p>avec le filter slice</p>
+		<ul>
+			{%  for elt in tableau | slice(2,2) %}
+				<li>{{ elt }}
+				</li>
+			{% endfor %}
+		</ul>
+		<ul>
+			{%  for elt in tableau[2:2] %}
+				<li>{{ elt }}
+				</li>
+			{% endfor %}
+		</ul>
+		<ul>
+			{%  for elt in tableau[:2] %}
+				<li>{{ elt }}
+				</li>
+			{% endfor %}
+		</ul>
+		<ul>
+			{%  for elt in tableau[2:] %}
+				<li>{{ elt }}
+				</li>
+			{% endfor %}
+		</ul>
+		<p>Avec le filtre reduce :</p>
+		<p>{{ tableau | reduce((resultat, valeur) => resultat + valeur, 100) }}</p>
+
+		{# exo3 : la plus grande valeur du tableau #}
+		<p>//////////// avec reduce ////////////
+		</p>
+		<p>{{ tableau | reduce((res, val) => res < val ? val : res ) }}</p>
+
+		<p>//////////// avec map ////////////
+		</p>
+		<ul>
+			{% for elt in tableau | map(elt => elt + 3)%}
+				<li>{{ elt }}</li>
+			{% endfor %}
+		</ul>
+
+		<p>////////////  avec filter (2,8,10,4)////////////
+		</p>
+		<ul>
+			{% for elt in tableau | filter(elt => elt % 2 == 0)%}
+				<li>{{ elt }}</li>
+			{% endfor %}
+		</ul>
+
+		<p>//////////// Uniquement les pairs du tableau clubs (2/2/4) ////////////p>
+			<ul>
+				{% for elt in clubs | map(elt => elt | length) | filter(elt => elt is even) %}
+					<li>{{ elt }}</li>
+				{% endfor %}
+			</ul>
+		</p>
+		<p>//////////// Nombres total de caratères dans le tableau club (14) ////////////p>
+			{# V1 #}
+		</p>
+		<p>{{ clubs | reduce((resultat, valeur) => resultat ~ valeur) | length }}</p>
+		{# V2 #}
+		<p>{{ clubs | map(elt => elt | length) | reduce((res, val) => res + val) }}</p>
+		{# V3 #}
+		<p>{{ clubs | reduce((res, val) => res + val | length) }}</p>
+
+		<p>//////////// Ne pas interpréter la balise ////////////
+		</p>
+		<p>
+			{{ "bonjour <br> bonsoir" }}
+		</p>
+		<p>
+			{{ "bonjour <br> bonsoir" | e}}
+		</p>
+		<p>//////////// Interpréter les balises ////////////
+		</p>
+
+		{% set str = "<script>alert('bonjour')</script>"%}
+		{{ str | raw }}
+
 	</div>
 {% endblock %}
