@@ -37,11 +37,11 @@ class VehiculeController extends AbstractController
     // /vehicule/home => une action de HomeController
     // /vehicule/conjugaison => une action de ConjugaisonController
     // /vehicule/calcule => action de CalculController
-    #[Route('/vehicule/{route}')]
-    public function index(string $route): Response
+    #[Route('/vehicule/{route?}', name:'app_vehicule')]
+    public function index(string $route = "home"): Response
     {
         switch ($route) {
-            case 'home':
+            case "home":
                 return $this->redirectToRoute('app_home_index', [
                     'nom' => 'Doe',
                     'prenom' => 'John',
