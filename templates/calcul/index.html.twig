@@ -25,25 +25,52 @@
 			{% set resultat = 0 %}
 			{% if op == "plus" %}
 				{% set resultat = val1 + val2 %}
-                {% set operateur = "+" %}
+				{% set operateur = "+" %}
 				<li>{{val1 ~ ' '~ operateur ~ ' ' ~ val2 ~ " = " ~ resultat}}</li>
 			{% elseif op == "moins" %}
 				{% set resultat = val1 - val2 %}
-                {% set operateur = "-" %}
+				{% set operateur = "-" %}
 				<li>{{val1 ~ ' '~ operateur ~ ' ' ~ val2 ~ " = " ~ resultat}}</li>
 			{% elseif op == "fois" %}
 				{% set resultat = val1 * val2 %}
-                {% set operateur = "*" %}
+				{% set operateur = "*" %}
 				<li>{{val1 ~ ' '~ operateur ~ ' ' ~ val2 ~ " = " ~ resultat}}</li>
 			{% elseif op == "div" and val2 != 0 %}
 				{% set resultat = val1 / val2 %}
-                {% set operateur = "/" %}
+				{% set operateur = "/" %}
 				<li>{{val1 ~ ' '~ operateur ~ ' ' ~ val2 ~ " = " ~ resultat}}</li>
 			{% else %}
 				{% set resultat = "Erreur" %}
-				<li>{{ resultat ~ " division par zéros!" }}</li>
+				<li>{{ resultat ~ " division par zéro!" }}</li>
 			{% endif %}
 		</ul>
+		{# {% if op == 'plus' %}
+			{% set resultat = valeur1 + valeur2 %}
+			{% set operateur = '+' %}
+		{% elseif op == 'moins' %}
+			{% set resultat = valeur1 - valeur2 %}
+			{% set operateur = '-' %}
+		{% elseif op == 'div' %}
+			{% if valeur2 == 0 %}
+				{% set resultat = "Infinity" %}
+			{% else %}
+				{% set resultat = valeur1 / valeur2 %}
+			{% endif %}
+			{% set operateur = '/' %}
+		{% elseif op == 'fois' %}
+			{% set resultat = valeur1 * valeur2 %}
+			{% set operateur = '*' %}
+		{% endif %}
+
+		{% if resultat is defined %}
+			{{ valeur1 }}
+			{{ operateur }}
+			{{ valeur2 }}
+			=
+			{{ resultat }}
+		{% else %}
+			Opérateur inconnu
+		{% endif %} #}
 
 		This friendly message is coming from:
 		<ul>
