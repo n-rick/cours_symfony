@@ -63,15 +63,15 @@ class HomeController extends AbstractController
     // }
 
     //Récupération d'un paramètre avec l'objet request
-    #[Route('/home/{nom}/{prenom}')]
-    public function index(Request $request): Response
-    {
-        $nom = $request->get('nom');
-        $prenom = $request->get('prenom');
-        return $this->render('home/index.html.twig', [
-            'controller_name' => "$prenom $nom",
-        ]);
-    }
+    // #[Route('/home/{nom}/{prenom}')]
+    // public function index(Request $request): Response
+    // {
+    //     $nom = $request->get('nom');
+    //     $prenom = $request->get('prenom');
+    //     return $this->render('home/index.html.twig', [
+    //         'controller_name' => "$prenom $nom",
+    //     ]);
+    // }
 
     // // Récuparation de tous les paramètres : 
     // #[Route('/home/{prenom}/{nom}', name: "home_route")]
@@ -111,15 +111,15 @@ class HomeController extends AbstractController
     //     ]);
     // }
 
-    // #[Route('/nom/{nom}/prenom/{prenom}')]
-    // public function index2(string $nom, string $prenom): Response
-    // {
-    //     return $this->render('home/index.html.twig', [
-    //         'controller_name' => "$prenom, $nom",
-    //     ]);
-    // }
+    #[Route('/nom/{nom}/prenom/{prenom}')]
+    public function index2(string $nom, string $prenom): Response
+    {
+        return $this->render('home/index.html.twig', [
+            'controller_name' => "$prenom, $nom",
+        ]);
+    }
 
-    // // Récupérer le nom de la route:
+    // Récupérer le nom de la route:
     // #[Route('/home', name:'home')]
     // #[Route('/accueil', name:'accueil')]
     // public function home(Request $request): Response
@@ -131,14 +131,14 @@ class HomeController extends AbstractController
     // }
 
     // Methode HTTP
-    // #[Route('/home', name:'home')]
-    // #[Route('/accueil', name:'accueil', methods:['GET', 'POST'])]
-    // public function home(Request $request): Response
-    // {
-    //     $route = $request->get('_route');
-    //     return $this->render('home/index.html.twig', [
-    //         'controller_name' => "$route",
-    //     ]);
-    // }
+    #[Route('/home', name:'home')]
+    #[Route('/accueil', name:'accueil', methods:['GET', 'POST'])]
+    public function home(Request $request): Response
+    {
+        $route = $request->get('_route');
+        return $this->render('home/index.html.twig', [
+            'controller_name' => "$route",
+        ]);
+    }
 
 }
