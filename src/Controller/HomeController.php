@@ -15,7 +15,9 @@ class HomeController extends AbstractController
     #[Route('/accueil', name: "accueil", methods: ['GET', 'POST'])]
     public function index3(Request $request): Response
     {
-        $tab = [2, 3, 8];
+        // $tab = [2, 3, 8];
+        $tab = [2, 3, 8, 10, 5, 4, 1, 7];
+        $clubs = ['om', 'ol', 'tfc', 'losc', 'psg'];
         $route = $request->get('_route');
         $personne = new Personne();
         $personne->setId(100);
@@ -24,7 +26,8 @@ class HomeController extends AbstractController
         return $this->render('home/index.html.twig', [
             'controller_name' => $route,
             'tableau' => $tab,
-            'personne' => $personne
+            'personne' => $personne,
+            'clubs' => $clubs,
         ]);
     }
 
