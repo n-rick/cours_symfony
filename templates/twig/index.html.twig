@@ -18,12 +18,20 @@
 	</style>
 
 	<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+		<h1>Hello
+			{{ controller_name }}! ✅</h1>
 		<ul>
 			<li>Nom :
-				{{ nom }}</li>
+				{{ nom ?? "non défini" }}</li>
 			<li>Prenom :
-				{{ prenom }}</li>
+				{{ prenom ?? "non défini" }}</li>
+		</ul>
+		<ul>
+			{% for elt in range( min, max,  step) %}
+				<li>
+					{{ elt }}
+				</li>
+			{% endfor %}
 		</ul>
 	</div>
 {% endblock %}

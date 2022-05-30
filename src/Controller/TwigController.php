@@ -20,4 +20,19 @@ class TwigController extends AbstractController
             'prenom' => "$prenom",
         ]);
     }
+    // exo1 définir un route qui prend les steps
+    #[Route('/twig/{min}/{max}/{step}', name: 'app_twig_range')]
+    public function index2(Request $request): Response
+    {
+        $min = $request->get('min');
+        $max = $request->get('max');
+        $step = $request->get('step');
+        return $this->render('twig/index.html.twig', [
+            'controller_name' => "TwigController",
+            'min' => "$min",
+            'max' => "$max",
+            'step' => "$step",
+        ]);
+    }
+
 }
