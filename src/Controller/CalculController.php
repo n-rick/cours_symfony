@@ -92,4 +92,16 @@ class CalculController extends AbstractController
             'controller_name' => $result / $nbr,
         ]);
     }
+
+    // exo envoyer à la vue les valeurs pour qu'elle exécute le traitement : 
+    #[Route('/calcul/{val1?}/{op?}/{val2?}', name: 'app_calcul_2', priority:5)]
+    public function index2(?int $val1, ?string $op, ?int $val2): Response
+    {
+        return $this->render('calcul/index.html.twig', [
+            'controller_name' => 'CalculController',
+            'val1' => $val1,
+            'val2' => $val2,
+            'op' => $op,
+        ]);
+    }
 }
