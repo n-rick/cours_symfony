@@ -27,11 +27,13 @@
 				{{ prenom ?? "non défini" }}</li>
 		</ul>
 		<ul>
-			{% for elt in range( min, max,  step) %}
+			{% for elt in range( min ?? 0, max ?? 1 , step ?? 1) %}
 				<li>
 					{{ elt }}
 				</li>
 			{% endfor %}
 		</ul>
+		<a href="{{ path("home") }}">Accueil</a>
+		<a href="{{ url("home") }}">Accueil</a>
 	</div>
 {% endblock %}
