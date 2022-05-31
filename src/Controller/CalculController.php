@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\CalculService;
 use DivisionByZeroError;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -94,14 +95,20 @@ class CalculController extends AbstractController
     }
 
     // exo envoyer à la vue les valeurs pour qu'elle exécute le traitement : 
-    #[Route('/calcul/{val1?}/{op?}/{val2?}', name: 'app_calcul_2', priority:5)]
-    public function index2(?int $val1, ?string $op, ?int $val2): Response
+    #[Route('/calcul/{val1?}/{op?}/{val2?}', name: 'app_calcul_2', priority: 5)]
+    public function index2(?int $val1, ?string $op, ?int $val2, CalculService $calculService): Response
     {
-        return $this->render('calcul/index.html.twig', [
-            'controller_name' => 'CalculController',
+        try {
+            $resultat = $calculService->getResultat($val1, $op, $val2);
+        } catch (\DivisionByZeroError $e) {
+            $resultat = $e->getMessage();
+        }
+        return $this->render('calcul/service.html.twig', [
+            'controller_name' => "Calcul Service",
             'val1' => $val1,
-            'val2' => $val2,
             'op' => $op,
+            'val2' => $val2,
+            'resultat' => $resultat,
         ]);
     }
 }

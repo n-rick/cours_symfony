@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Personne;
+use App\Service\AdresseEmailService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -136,13 +137,20 @@ class HomeController extends AbstractController
     //     ]);
     // }
 
-    // #[Route('/nom/{nom}/prenom/{prenom}')]
-    // public function index2(string $nom, string $prenom): Response
-    // {
-    //     return $this->render('home/index.html.twig', [
-    //         'controller_name' => "$prenom, $nom",
-    //     ]);
-    // }
+    #[Route('/nom/{nom}/prenom/{prenom}')]
+    public function index2(string $nom, string $prenom): Response
+    {
+        return $this->render('home/index.html.twig', [
+            'controller_name' => "$prenom $nom",
+        ]);
+    }
+    #[Route('/home/{nom}/{prenom}')]
+    public function index(string $nom, string $prenom, AdresseEmailService $adresseEmailService): Response
+    {
+        return $this->render('home/service.html.twig', [
+            'controller_name' => $adresseEmailService->getAMfromNomPrenom($nom, $prenom),
+        ]);
+    }
 
     // // Récupérer le nom de la route:
     // #[Route('/home', name:'home')]

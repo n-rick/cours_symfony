@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CalculController!
+{% endblock %}
+
+{% block body %}
+	<style>
+		.example-wrapper {
+			margin: 1em auto;
+			max-width: 800px;
+			width: 95%;
+			font: 18px / 1.5 sans-serif;
+		}
+		.example-wrapper code {
+			background: #F5F5F5;
+			padding: 2px 6px;
+		}
+	</style>
+
+	<div class="example-wrapper">
+		<h1>Hello
+			{{ controller_name }}! ✅</h1>
+			<p class="example-wrapper code">Le calcul demandé : {{val1}} {{op}} {{val2}} est égale à : <strong>{{ resultat }} </strong></p>
+			
+	</div>
+{% endblock %}
