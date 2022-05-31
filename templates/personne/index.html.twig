@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+Hello PersonneController!
+{% endblock %}
+
+{% block body %}
+	<h1>Hello
+		{{ controller_name }}!
+	</h1>
+
+	{% if personne is defined %}
+		Personne
+		{{ adjectif }}
+		:
+		{{ personne.id }}
+		{{ personne.prenom }}
+		{{ personne.nom }}
+	{% endif %}
+{% endblock %}

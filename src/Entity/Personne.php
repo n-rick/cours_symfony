@@ -19,7 +19,7 @@ class Personne
     #[ORM\Column(type: 'string', length: 30, nullable: true)]
     private $prenom;
 
-    #[ORM\Column(type: 'string', length: 1, nullable: true)]
+    #[ORM\Column(type: 'string', length: 30, nullable: true)]
     private $sexe;
 
     public function getId(): ?int
@@ -62,4 +62,5 @@ class Personne
 
         return $this;
     }
+
 }
