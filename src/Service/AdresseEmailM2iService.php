@@ -4,7 +4,9 @@ namespace App\Service;
 
 use App\Util\EmailInterface;
 use Psr\Log\LoggerInterface;
-class AdresseEmailService implements EmailInterface
+
+
+class AdresseEmailM2iService implements EmailInterface
 {
 
     // injection de dépendance par constructeur (Comme Angular)
@@ -14,7 +16,7 @@ class AdresseEmailService implements EmailInterface
 
     public function getAMfromNomPrenom(string $nom, string $prenom): string
     {
-        $adresse = $nom . '.' . $prenom . "@symfony.$this->extension";
+        $adresse = $nom . '.' . $prenom . "@m2i.$this->extension";
         $this->logger->info(" l'adresse : $adresse a été générée");
         return $adresse;
     }

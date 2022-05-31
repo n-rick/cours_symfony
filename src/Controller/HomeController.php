@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Personne;
 use App\Service\AdresseEmailService;
+use App\Util\EmailInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -145,7 +146,7 @@ class HomeController extends AbstractController
         ]);
     }
     #[Route('/home/{nom}/{prenom}')]
-    public function index(string $nom, string $prenom, AdresseEmailService $adresseEmailService): Response
+    public function index(string $nom, string $prenom, EmailInterface $adresseEmailService): Response
     {
         return $this->render('home/service.html.twig', [
             'controller_name' => $adresseEmailService->getAMfromNomPrenom($nom, $prenom),
