@@ -20,7 +20,7 @@
 	{% include 'shared/_menu1.twig' ignore missing %}
 	<div class="example-wrapper">
 		<h1>Hello
-			{{ controller_name }}! ✅</h1>
+			{{ app.session.get('nom') ~ ' ' ~ app.session.get('prenom') }}! ✅</h1>
 	</div>
 
 {% endblock %}

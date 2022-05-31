@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class HomeController extends AbstractController
 {
@@ -146,8 +147,10 @@ class HomeController extends AbstractController
         ]);
     }
     #[Route('/home/{nom}/{prenom}')]
-    public function index(string $nom, string $prenom, EmailInterface $adresseEmailService): Response
+    public function index(string $nom, string $prenom, EmailInterface $adresseEmailService, SessionInterface $sessionInterface): Response
     {
+        $sessionInterface->set('nom', $nom);
+        $sessionInterface->set('prenom', $prenom);
         return $this->render('home/service.html.twig', [
             'controller_name' => $adresseEmailService->getAMfromNomPrenom($nom, $prenom),
         ]);
