@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Adresse;
 use App\Entity\Personne;
+use App\Entity\Sport;
 use App\Repository\PersonneRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
@@ -41,7 +42,7 @@ class PersonneController extends AbstractController
     //  * Ajouter une adresse et l'affecté à une personne
     //  */
     // #[Route('/personne/adresse/add', name: 'personne_adresse')]
-    // public function addresse(EntityManagerInterface $entityManager, ValidatorInterface $validator): Response
+    // public function addresse(EntityManagerInterface $entityManager): Response
     // {
     //     $adresse = new Adresse();
     //     $adresse->setRue('jean moulin');
@@ -64,8 +65,38 @@ class PersonneController extends AbstractController
     /**
      * Ajouter ManyToOne adresse et l'affecté à une personne
      */
+    #[Route('/personne/sport/add', name: 'personne_sport_add')]
+    public function addSport(EntityManagerInterface $entityManager): Response
+    {
+        $sport = new Sport();
+        $sport->setName('Football');
+        $sport2 = new Sport();
+        $sport2->setName('Tennis');
+        $personne = new Personne();
+        $personne->setNom('Dalton');
+        $personne->setPrenom('Jack');
+        $personne->addSport($sport);
+        $personne->addSport($sport2);
+        $personne2 = new Personne();
+        $personne2->setNom('Benamar');
+        $personne2->setPrenom('Karim');
+        $personne2->addSport($sport);
+        $entityManager->persist($personne);
+        $entityManager->persist($personne2);
+        $entityManager->flush();
+
+        return $this->render('personne/index.html.twig', [
+            'controller_name' => 'PersonneController',
+            'personne' => $personne,
+            'adjectif' => 'ajoutée avec un sport'
+        ]);
+    }
+
+    /**
+     * Ajouter ManyToOne adresse et l'affecté à une personne
+     */
     #[Route('/personne/adresse/add', name: 'personne_adresse')]
-    public function addresse(EntityManagerInterface $entityManager, ValidatorInterface $validator): Response
+    public function addresse(EntityManagerInterface $entityManager): Response
     {
         $adresse = new Adresse();
         $adresse->setRue('défense');

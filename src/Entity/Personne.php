@@ -28,7 +28,7 @@ class Personne
     #[ORM\ManyToOne(targetEntity: Adresse::class, cascade: ['persist', 'remove'])]
     private $adresse;
 
-    #[ORM\ManyToMany(targetEntity: Sport::class)]
+    #[ORM\ManyToMany(targetEntity: Sport::class, cascade: ['persist', 'remove'])]
     private $sports;
 
     public function __construct()
