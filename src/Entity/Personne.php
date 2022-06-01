@@ -27,6 +27,9 @@ class Personne
     #[ORM\ManyToMany(targetEntity: Sport::class, cascade: ['persist', 'remove'])]
     private $sports;
 
+    #[ORM\ManyToOne(targetEntity: Adresse::class, inversedBy: 'personnes', cascade: ['persist', 'remove'])]
+    private $adresse;
+
     public function __construct()
     {
         $this->sports = new ArrayCollection();
@@ -93,6 +96,18 @@ class Personne
     public function removeSport(Sport $sport): self
     {
         $this->sports->removeElement($sport);
+
+        return $this;
+    }
+
+    public function getAdresse(): ?Adresse
+    {
+        return $this->adresse;
+    }
+
+    public function setAdresse(?Adresse $adresse): self
+    {
+        $this->adresse = $adresse;
 
         return $this;
     }

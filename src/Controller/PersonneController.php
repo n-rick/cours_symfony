@@ -98,21 +98,32 @@ class PersonneController extends AbstractController
     #[Route('/personne/adresse/add', name: 'personne_adresse')]
     public function addresse(EntityManagerInterface $entityManager): Response
     {
-        $adresse = new Adresse();
-        $adresse->setRue('défense');
-        $adresse->setVille('Paris');
-        $adresse->setCodePostal('75000');
+        // Relation bidirectionnelle :
         $personne = new Personne();
-        $personne->setNom('Cohen');
-        $personne->setPrenom('Sophie');
-        $personne->setAdresse($adresse);
-        $personne2 = new Personne();
-        $personne2->setNom('Wolf');
-        $personne2->setPrenom('Bob');
-        $personne2->setAdresse($adresse);
-        $entityManager->persist($personne);
-        $entityManager->persist($personne2);
-        $entityManager->flush();
+        $personne->setNom('Wick');
+        $personne->setPrenom('John');
+        $adresse = new Adresse();
+        $adresse->setRue('10 rue de Lyon');
+        $adresse->setVille('Marseille');
+        $adresse->setCodePostal(13015);
+        $adresse->addPersonne($personne);
+        dd($personne->getAdresse());
+
+        // $adresse = new Adresse();
+        // $adresse->setRue('défense');
+        // $adresse->setVille('Paris');
+        // $adresse->setCodePostal('75000');
+        // $personne = new Personne();
+        // $personne->setNom('Cohen');
+        // $personne->setPrenom('Sophie');
+        // $personne->setAdresse($adresse);
+        // $personne2 = new Personne();
+        // $personne2->setNom('Wolf');
+        // $personne2->setPrenom('Bob');
+        // $personne2->setAdresse($adresse);
+        // $entityManager->persist($personne);
+        // $entityManager->persist($personne2);
+        // $entityManager->flush();
         return $this->render('personne/index.html.twig', [
             'controller_name' => 'PersonneController',
             'personne' => $personne,
