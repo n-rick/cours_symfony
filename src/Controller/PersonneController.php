@@ -58,9 +58,9 @@ class PersonneController extends AbstractController
      * Editer une personne
      */
     #[Route('/personne/edit/{id}', name: 'personne_edit')]
-    public function editPersonne(int $id,EntityManagerInterface $em): Response
+    public function editPersonne(Personne $personne,EntityManagerInterface $em): Response
     {
-        $personne = $em->getRepository(Personne::class)->find($id);
+        // $personne = $em->getRepository(Personne::class)->find($id);
         if (!$personne) {
             throw $this->createNotFoundException("Personne avec l'identifiant $id non trouvée");
         }
@@ -77,9 +77,9 @@ class PersonneController extends AbstractController
      * Rechercher une personne par l'id
      */
     #[Route('/personne/{id}', name: 'personne_show')]
-    public function showPersonneById(int $id, PersonneRepository $personneRepository): Response
+    public function showPersonneById(Personne $personne, PersonneRepository $personneRepository): Response
     {
-        $personne = $personneRepository->find($id);
+        // $personne = $personneRepository->find($id);
         if (!$personne) {
             throw $this->createNotFoundException("Personne non trouvée avec l'identifiant $id .");
         }
