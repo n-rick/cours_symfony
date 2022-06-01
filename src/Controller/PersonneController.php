@@ -58,18 +58,34 @@ class PersonneController extends AbstractController
      * Editer une personne
      */
     #[Route('/personne/edit/{id}', name: 'personne_edit')]
-    public function editPersonne(Personne $personne,EntityManagerInterface $em): Response
+    public function editPersonne(Personne $personne, EntityManagerInterface $em): Response
     {
         // $personne = $em->getRepository(Personne::class)->find($id);
         if (!$personne) {
-            throw $this->createNotFoundException("Personne avec l'identifiant $id non trouvée");
+            throw $this->createNotFoundException("Personne non trouvée");
         }
-        $personne->setNom("Maradonna");
+        $personne->setNom("Costa");
         $em->flush();
         return $this->render('personne/index.html.twig', [
             'controller_name' => 'PersonneController',
             'personne' => $personne,
             'adjectif' => 'modifiée'
+        ]);
+    }
+    /**
+     * Recherche et par nom
+     */
+    #[Route('/personne/show/{nom}', name: 'personne_show_nom_')]
+    public function showPersonneByNom(string $nom, PersonneRepository $personneRepository): Response
+    {
+        $personnes = $personneRepository->findByNom($nom);
+        if (!$personnes) {
+            throw $this->createNotFoundException("Aucune correspondance dans la base de données");
+        }
+        return $this->render('personne/show.html.twig', [
+            'controller_name' => 'PersonneController',
+            'personnes' => $personnes,
+            'adjectif' => 'recherchée'
         ]);
     }
 
@@ -81,7 +97,7 @@ class PersonneController extends AbstractController
     {
         // $personne = $personneRepository->find($id);
         if (!$personne) {
-            throw $this->createNotFoundException("Personne non trouvée avec l'identifiant $id .");
+            throw $this->createNotFoundException("Personne non trouvée");
         }
 
         return $this->render('personne/index.html.twig', [
@@ -89,6 +105,25 @@ class PersonneController extends AbstractController
             'personne' => $personne,
             'adjectif' => 'recherchée'
         ]);
+    }
+
+    /**
+     * Supprimer une personne
+     */
+    #[Route('/personne/delete/{id}', name: 'personne_delete')]
+    public function deletePersonne(int $id, EntityManagerInterface $em): Response
+    {
+        $personne = $em->getRepository(Personne::class)->find($id);
+        if (!$personne) {
+            throw $this->createNotFoundException("Personne non trouvée");
+        }
+        $em->remove($personne);
+        $em->flush();
+        $this->addFlash(
+            'info',
+            'personne supprimée avec succès!'
+        );
+        return $this->redirectToRoute("personne_show_all");
     }
 
     /**

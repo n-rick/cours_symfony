@@ -24,7 +24,9 @@
 		}
 	</style>
 	<h1>Liste des personnes</h1>
-
+	{% for message in app.flashes('info') %}
+	{{message}}
+	{% endfor %}
 	<table>
 		<tr>
 			<th>Id</th>
