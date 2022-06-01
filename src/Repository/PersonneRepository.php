@@ -93,21 +93,56 @@ class PersonneRepository extends ServiceEntityRepository
     //         ->getResult();
     // }
 
+    // /**
+    //  * Avec une recherche par nom et prenom avec createQuery (DQL)
+    //  * @return Personne[] Returns an array of Personne objects
+    //  */
+    // public function findByNomAndPrenom(string $nom, string $prenom): array
+    // {
+    //     $query = $this->_em->createQuery(
+    //         'SELECT p
+    //         FROM App\Entity\Personne p
+    //         WHERE p.nom = :nom
+    //         and p.prenom = :prenom'
+    //     )->setParameter('nom', $nom)
+    //         ->setParameter('prenom', $prenom);
+    //     $result = $query->getResult();
+    //     return $result;
+    // }
+
+    // /**
+    //  * Avec une recherche par initiale avec createQuery (DQL)
+    //  * @return Personne[] Returns an array of Personne objects
+    //  */
+    // public function findByNomAndPrenom(string $nom, string $prenom): array
+    // {
+    //     $query = $this->_em->createQuery(
+    //         'SELECT p
+    //         FROM App\Entity\Personne p
+    //         WHERE p.nom LIKE :nom
+    //         and p.prenom LIKE :prenom'
+    //     )->setParameter('nom', "%$nom%")
+    //         ->setParameter('prenom', "%$prenom%");
+    //     $result = $query->getResult();
+    //     return $result;
+    // }
+
     /**
-     * Avec une recherche par initiale avec createQuery
-     * @return Personne[] Returns an array of Personne objects
+     * Avec une recherche par initiale avec createQuery (SQL)
      */
-    public function findByNomAndPrenom(string $nom, string $prenom): array
+    public function findByNomAndPrenom(string $nom, string $prenom)
     {
-        $query = $this->_em->createQuery(
+        $query = $this->_em->getConnection()->prepare(
             'SELECT p
             FROM App\Entity\Personne p
-            WHERE p.nom = :nom
-            and p.prenom = :prenom'
-        )->setParameter('nom', $nom)
-            ->setParameter('prenom', $prenom);
-        $result = $query->getResult();
-        return $result;
+            WHERE p.nom LIKE :nom
+            and p.prenom LIKE :prenom'
+        );
+        $result = $query->executeQuery([
+            'nom' => $nom,
+            'prenom' => $prenom,
+        ]);
+        return $result->fetchAllAssociative();
     }
 
     //    public function findOneBySomeField($value): ?Personne
