@@ -7,9 +7,11 @@ use App\Entity\Enseignant;
 use App\Entity\Etudiant;
 use App\Entity\Personne;
 use App\Entity\Sport;
+use App\Repository\AdresseRepository;
 use App\Repository\EnseignantRepository;
 use App\Repository\EtudiantRepository;
 use App\Repository\PersonneRepository;
+use App\Repository\SportRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -114,6 +116,32 @@ class PersonneController extends AbstractController
     }
 
     /**
+     * Ajouter ManyToOne sport existant et nouveau et l'affecté à une personne
+     */
+    #[Route('/personne/sport/add-2', name: 'personne_sport_add_2')]
+    public function addTwoSport(EntityManagerInterface $entityManager, SportRepository $sportRepository): Response
+    {
+        $sport = new Sport();
+        $sport->setName('Rugby');
+        $sport2 = $sportRepository->find(2);
+
+        $personne = new Personne();
+        $personne->setNom('Donga');
+        $personne->setPrenom('Imalio');
+        $personne->addSport($sport);
+        $personne->addSport($sport2);
+
+        $entityManager->persist($personne);
+        $entityManager->flush();
+
+        return $this->render('personne/index.html.twig', [
+            'controller_name' => 'PersonneController',
+            'personne' => $personne,
+            'adjectif' => 'ajoutée avec deux sports'
+        ]);
+    }
+
+    /**
      * Ajouter ManyToOne adresse et l'affecté à une personne
      */
     #[Route('/personne/adresse/add', name: 'personne_adresse')]
@@ -209,7 +237,7 @@ class PersonneController extends AbstractController
     /**
      * Effectuer une recherche de toutes les personnes
      */
-    #[Route('/onlypersonne/show', name: 'personne_show_all')]
+    #[Route('/onlypersonne/show', name: 'onlypersonne_all')]
     public function showOnlyPersonne(PersonneRepository $personneRepository): Response
     {
         $data = $personneRepository->findAll();
@@ -228,7 +256,7 @@ class PersonneController extends AbstractController
     /**
      * Effectuer une recherche de toutes les personnes
      */
-    #[Route('/onlypersonne-2/show', name: 'personne_show_all')]
+    #[Route('/onlypersonne-2/show', name: 'onlypersonne-2')]
     public function showOnlyPersonne2(PersonneRepository $personneRepository): Response
     {
         $personnes = $personneRepository->findByOnlyPersonnes();
