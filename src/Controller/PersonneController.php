@@ -55,6 +55,25 @@ class PersonneController extends AbstractController
     }
 
     /**
+     * Editer une personne
+     */
+    #[Route('/personne/edit/{id}', name: 'personne_edit')]
+    public function editPersonne(int $id,EntityManagerInterface $em): Response
+    {
+        $personne = $em->getRepository(Personne::class)->find($id);
+        if (!$personne) {
+            throw $this->createNotFoundException("Personne avec l'identifiant $id non trouvée");
+        }
+        $personne->setNom("Maradonna");
+        $em->flush();
+        return $this->render('personne/index.html.twig', [
+            'controller_name' => 'PersonneController',
+            'personne' => $personne,
+            'adjectif' => 'modifiée'
+        ]);
+    }
+
+    /**
      * Rechercher une personne par l'id
      */
     #[Route('/personne/{id}', name: 'personne_show')]
