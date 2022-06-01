@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PersonneRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PersonneRepository::class)]
@@ -25,6 +27,14 @@ class Personne
     // #[ORM\OneToOne(targetEntity: Adresse::class, cascade: ['persist', 'remove'])]
     #[ORM\ManyToOne(targetEntity: Adresse::class, cascade: ['persist', 'remove'])]
     private $adresse;
+
+    #[ORM\ManyToMany(targetEntity: Sport::class)]
+    private $sports;
+
+    public function __construct()
+    {
+        $this->sports = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -75,6 +85,30 @@ class Personne
     public function setAdresse(?Adresse $adresse): self
     {
         $this->adresse = $adresse;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Sport>
+     */
+    public function getSports(): Collection
+    {
+        return $this->sports;
+    }
+
+    public function addSport(Sport $sport): self
+    {
+        if (!$this->sports->contains($sport)) {
+            $this->sports[] = $sport;
+        }
+
+        return $this;
+    }
+
+    public function removeSport(Sport $sport): self
+    {
+        $this->sports->removeElement($sport);
 
         return $this;
     }
