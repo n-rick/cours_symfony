@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Adresse;
 use App\Entity\Personne;
 use App\Repository\PersonneRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -33,6 +34,58 @@ class PersonneController extends AbstractController
             'controller_name' => 'PersonneController',
             'personne' => $personne,
             'adjectif' => 'ajoutée'
+        ]);
+    }
+
+    //     /**
+    //  * Ajouter une adresse et l'affecté à une personne
+    //  */
+    // #[Route('/personne/adresse/add', name: 'personne_adresse')]
+    // public function addresse(EntityManagerInterface $entityManager, ValidatorInterface $validator): Response
+    // {
+    //     $adresse = new Adresse();
+    //     $adresse->setRue('jean moulin');
+    //     $adresse->setCodePostal("13090");
+    //     $adresse->setVille("Aix-En-Provence");
+    //     $personne = new Personne();
+    //     $personne->setNom('Henry');
+    //     $personne->setPrenom('Thierry');
+    //     $personne->setAdresse($adresse);
+
+    //     $entityManager->persist($personne);
+    //     $entityManager->flush();
+    //     return $this->render('personne/index.html.twig', [
+    //         'controller_name' => 'PersonneController',
+    //         'personne' => $personne,
+    //         'adjectif' => 'ajoutée avec Adresse'
+    //     ]);
+    // }
+
+    /**
+     * Ajouter ManyToOne adresse et l'affecté à une personne
+     */
+    #[Route('/personne/adresse/add', name: 'personne_adresse')]
+    public function addresse(EntityManagerInterface $entityManager, ValidatorInterface $validator): Response
+    {
+        $adresse = new Adresse();
+        $adresse->setRue('défense');
+        $adresse->setVille('Paris');
+        $adresse->setCodePostal('75000');
+        $personne = new Personne();
+        $personne->setNom('Cohen');
+        $personne->setPrenom('Sophie');
+        $personne->setAdresse($adresse);
+        $personne2 = new Personne();
+        $personne2->setNom('Wolf');
+        $personne2->setPrenom('Bob');
+        $personne2->setAdresse($adresse);
+        $entityManager->persist($personne);
+        $entityManager->persist($personne2);
+        $entityManager->flush();
+        return $this->render('personne/index.html.twig', [
+            'controller_name' => 'PersonneController',
+            'personne' => $personne,
+            'adjectif' => 'ajoutée avec Adresse'
         ]);
     }
 
@@ -90,7 +143,7 @@ class PersonneController extends AbstractController
         ]);
     }
 
-        /**
+    /**
      * Recherche et par nom et prenom grâce à une fonction dans le PersonneRepository
      */
     #[Route('/personne/show/{nom}/{prenom}', name: 'personne_show_nom_prenom')]

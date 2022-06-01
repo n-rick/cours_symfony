@@ -22,7 +22,8 @@ class Personne
     #[ORM\Column(type: 'string', length: 30, nullable: true)]
     private $sexe;
 
-    #[ORM\OneToOne(targetEntity: Adresse::class, cascade: ['persist', 'remove'])]
+    // #[ORM\OneToOne(targetEntity: Adresse::class, cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(targetEntity: Adresse::class, cascade: ['persist', 'remove'])]
     private $adresse;
 
     public function getId(): ?int
