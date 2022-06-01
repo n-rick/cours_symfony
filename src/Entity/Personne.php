@@ -22,6 +22,9 @@ class Personne
     #[ORM\Column(type: 'string', length: 30, nullable: true)]
     private $sexe;
 
+    #[ORM\OneToOne(targetEntity: Adresse::class, cascade: ['persist', 'remove'])]
+    private $adresse;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,6 +62,18 @@ class Personne
     public function setSexe(?string $sexe): self
     {
         $this->sexe = $sexe;
+
+        return $this;
+    }
+
+    public function getAdresse(): ?Adresse
+    {
+        return $this->adresse;
+    }
+
+    public function setAdresse(?Adresse $adresse): self
+    {
+        $this->adresse = $adresse;
 
         return $this;
     }
