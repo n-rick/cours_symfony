@@ -47,28 +47,59 @@ class PersonneRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Personne[] Returns an array of Personne objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    //    /**
+    //     * @return Personne[] Returns an array of Personne objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('p')
+    //            ->andWhere('p.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('p.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
 
-//    public function findOneBySomeField($value): ?Personne
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    // /**
+    //  * @return Personne[] Returns an array of Personne objects
+    //  */
+    // public function findByNomAndPrenom(string $nom, string $prenom): array
+    // {
+    //     return $this->createQueryBuilder('p')
+    //         ->andWhere('p.nom = :nom')
+    //         ->setParameter('nom', $nom)
+    //         ->andWhere('p.prenom = :prenom')
+    //         ->setParameter('prenom', $prenom)
+    //         ->orderBy('p.id', 'ASC')
+    //         ->getQuery()
+    //         ->getResult();
+    // }
+
+    /**
+     * Avec une recherche par initiale
+     * @return Personne[] Returns an array of Personne objects
+     */
+    public function findByNomAndPrenom(string $nom, string $prenom): array
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.nom LIKE :nom')
+            ->setParameter('nom', '%' . $nom . '%')
+            ->andWhere('p.prenom LIKE :prenom')
+            ->setParameter('prenom', '%' . $prenom . '%')
+            ->orderBy('p.id', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    //    public function findOneBySomeField($value): ?Personne
+    //    {
+    //        return $this->createQueryBuilder('p')
+    //            ->andWhere('p.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }

@@ -72,6 +72,7 @@ class PersonneController extends AbstractController
             'adjectif' => 'modifiée'
         ]);
     }
+
     /**
      * Recherche et par nom
      */
@@ -79,6 +80,23 @@ class PersonneController extends AbstractController
     public function showPersonneByNom(string $nom, PersonneRepository $personneRepository): Response
     {
         $personnes = $personneRepository->findByNom($nom);
+        if (!$personnes) {
+            throw $this->createNotFoundException("Aucune correspondance dans la base de données");
+        }
+        return $this->render('personne/show.html.twig', [
+            'controller_name' => 'PersonneController',
+            'personnes' => $personnes,
+            'adjectif' => 'recherchée'
+        ]);
+    }
+
+        /**
+     * Recherche et par nom et prenom grâce à une fonction dans le PersonneRepository
+     */
+    #[Route('/personne/show/{nom}/{prenom}', name: 'personne_show_nom_prenom')]
+    public function showSomePersonneByNomANdPrenom(string $nom, string $prenom, PersonneRepository $personneRepository): Response
+    {
+        $personnes = $personneRepository->findByNomAndPrenom($nom, $prenom);
         if (!$personnes) {
             throw $this->createNotFoundException("Aucune correspondance dans la base de données");
         }
