@@ -34,5 +34,18 @@ class PersonneController extends AbstractController
     }
 
 
+    #[Route('/personne/{id}', name: 'personne_show')]
+    public function showPersonne(int $id, PersonneRepository $personneRepository): Response
+    {
+        $personne = $personneRepository->find($id);
+        if (!$personne) {
+            throw $this->createNotFoundException("Personne non trouvée avec l'identifiant $id .");
+        }
 
+        return $this->render('personne/index.html.twig', [
+            'controller_name' => 'PersonneController',
+            'personne' => $personne,
+            'adjectif' => 'recherchée'
+        ]);
+    }
 }
