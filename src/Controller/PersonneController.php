@@ -37,8 +37,26 @@ class PersonneController extends AbstractController
     }
 
     /**
+     * Effectuer une recherche de toutes les personnes
+     */
+    #[Route('/personne/show', name: 'personne_show_all')]
+    public function showAllPersonne(PersonneRepository $personneRepository): Response
+    {
+        $personnes = $personneRepository->findAll();
+
+        if (!$personnes) {
+            throw $this->createNotFoundException("Aucune donnée trouvée");
+        }
+
+        return $this->render('personne/show.html.twig', [
+            'controller_name' => 'PersonneController',
+            'personnes' => $personnes,
+        ]);
+    }
+
+    /**
      * Rechercher une personne par l'id
-    */
+     */
     #[Route('/personne/{id}', name: 'personne_show')]
     public function showPersonneById(int $id, PersonneRepository $personneRepository): Response
     {
@@ -75,5 +93,4 @@ class PersonneController extends AbstractController
             'adjectif' => 'recherchée'
         ]);
     }
-
 }
