@@ -8,18 +8,9 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: EtudiantRepository::class)]
 class Etudiant extends Personne
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
 
     #[ORM\Column(type: 'string', length: 30, nullable: true)]
     private $niveau;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getNiveau(): ?string
     {
