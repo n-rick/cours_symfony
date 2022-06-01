@@ -6,8 +6,10 @@ use App\Repository\PersonneRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
+#[ORM\InheritanceType('SINGLE_TABLE')]
 #[ORM\Entity(repositoryClass: PersonneRepository::class)]
+#[ORM\DiscriminatorColumn(name: 'type', type: 'string')]
+#[ORM\DiscriminatorMap(['personne' => 'Personne', 'etudiant' => 'Etudiant', 'enseignant' => 'Enseignant'])]
 class Personne
 {
     #[ORM\Id]

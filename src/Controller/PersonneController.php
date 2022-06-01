@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Adresse;
+use App\Entity\Enseignant;
+use App\Entity\Etudiant;
 use App\Entity\Personne;
 use App\Entity\Sport;
 use App\Repository\PersonneRepository;
@@ -22,15 +24,32 @@ class PersonneController extends AbstractController
     #[Route('/personne/add', name: 'personne_add')]
     public function index(EntityManagerInterface $entityManager, ValidatorInterface $validator): Response
     {
+        // gestion de l'héritage
         $personne = new Personne();
-        $personne->setNom('Maradonna');
-        $personne->setPrenom('Diego');
-        $errors = $validator->validate($personne);
-        if (count($errors) > 0) {
-            return new Response((string) $errors, 400);
-        }
+        $personne->setNom('Wick');
+        $personne->setPrenom('John');
+        $etudiant = new Etudiant();
+        $etudiant->setNom('Maggio');
+        $etudiant->setPrenom('Carol');
+        $etudiant->setNiveau('master');
+        $enseignant = new Enseignant();
+        $enseignant->setNom('Baggio');
+        $enseignant->setPrenom('Roberto');
+        $enseignant->setSalaire(2000);
         $entityManager->persist($personne);
+        $entityManager->persist($etudiant);
+        $entityManager->persist($enseignant);
         $entityManager->flush();
+
+        // $personne = new Personne();
+        // $personne->setNom('Maradonna');
+        // $personne->setPrenom('Diego');
+        // $errors = $validator->validate($personne);
+        // if (count($errors) > 0) {
+        //     return new Response((string) $errors, 400);
+        // }
+        // $entityManager->persist($personne);
+        // $entityManager->flush();
         return $this->render('personne/index.html.twig', [
             'controller_name' => 'PersonneController',
             'personne' => $personne,
