@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Personne;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,9 +13,8 @@ class PersonneController extends AbstractController
 {
 
     #[Route('/personne/add', name: 'personne_add')]
-    public function index(ManagerRegistry $doctrine): Response
+    public function index(EntityManagerInterface $entityManager): Response
     {
-        $entityManager = $doctrine->getManager();
         $personne = new Personne();
         $personne->setNom('Maradonna');
         $personne->setPrenom('Diego');
