@@ -24,10 +24,6 @@ class Personne
     #[ORM\Column(type: 'string', length: 30, nullable: true)]
     private $sexe;
 
-    // #[ORM\OneToOne(targetEntity: Adresse::class, cascade: ['persist', 'remove'])]
-    #[ORM\ManyToOne(targetEntity: Adresse::class, cascade: ['persist', 'remove'])]
-    private $adresse;
-
     #[ORM\ManyToMany(targetEntity: Sport::class, cascade: ['persist', 'remove'])]
     private $sports;
 
@@ -73,18 +69,6 @@ class Personne
     public function setSexe(?string $sexe): self
     {
         $this->sexe = $sexe;
-
-        return $this;
-    }
-
-    public function getAdresse(): ?Adresse
-    {
-        return $this->adresse;
-    }
-
-    public function setAdresse(?Adresse $adresse): self
-    {
-        $this->adresse = $adresse;
 
         return $this;
     }
