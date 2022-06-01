@@ -7,6 +7,8 @@ use App\Entity\Enseignant;
 use App\Entity\Etudiant;
 use App\Entity\Personne;
 use App\Entity\Sport;
+use App\Repository\EnseignantRepository;
+use App\Repository\EtudiantRepository;
 use App\Repository\PersonneRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
@@ -169,6 +171,79 @@ class PersonneController extends AbstractController
     }
 
     /**
+     * Effectuer une recherche de toutes les personnes étant etudiant
+     */
+    #[Route('/etudiant/show', name: 'etudiant_show_all')]
+    public function showAllEtudiant(EtudiantRepository $etudiantRepository): Response
+    {
+        $etudiants = $etudiantRepository->findAll();
+
+        if (!$etudiants) {
+            throw $this->createNotFoundException("Aucune donnée trouvée");
+        }
+
+        return $this->render('personne/show.html.twig', [
+            'controller_name' => 'PersonneController',
+            'personnes' => $etudiants,
+        ]);
+    }
+
+    /**
+     * Effectuer une recherche de toutes les personnes étant enseignant
+     */
+    #[Route('/enseignant/show', name: 'enseignant_show_all')]
+    public function showAllenseignant(EnseignantRepository $enseignantRepository): Response
+    {
+        $enseignants = $enseignantRepository->findAll();
+
+        if (!$enseignants) {
+            throw $this->createNotFoundException("Aucune donnée trouvée");
+        }
+
+        return $this->render('personne/show.html.twig', [
+            'controller_name' => 'PersonneController',
+            'personnes' => $enseignants,
+        ]);
+    }
+
+    /**
+     * Effectuer une recherche de toutes les personnes
+     */
+    #[Route('/onlypersonne/show', name: 'personne_show_all')]
+    public function showOnlyPersonne(PersonneRepository $personneRepository): Response
+    {
+        $data = $personneRepository->findAll();
+        $personnes = array_filter($data, fn ($elt) => !($elt instanceof Etudiant) && !($elt instanceof Enseignant));
+
+        if (!$personnes) {
+            throw $this->createNotFoundException("Aucune donnée trouvée");
+        }
+
+        return $this->render('personne/show.html.twig', [
+            'controller_name' => 'PersonneController',
+            'personnes' => $personnes,
+        ]);
+    }
+
+    /**
+     * Effectuer une recherche de toutes les personnes
+     */
+    #[Route('/onlypersonne-2/show', name: 'personne_show_all')]
+    public function showOnlyPersonne2(PersonneRepository $personneRepository): Response
+    {
+        $personnes = $personneRepository->findByOnlyPersonnes();
+
+        if (!$personnes) {
+            throw $this->createNotFoundException("Aucune donnée trouvée");
+        }
+
+        return $this->render('personne/show.html.twig', [
+            'controller_name' => 'PersonneController',
+            'personnes' => $personnes,
+        ]);
+    }
+
+    /**
      * Editer une personne
      */
     #[Route('/personne/edit/{id}', name: 'personne_edit')]
@@ -188,7 +263,7 @@ class PersonneController extends AbstractController
     }
 
     /**
-     * Recherche et par nom
+     * Recherche par nom
      */
     #[Route('/personne/show/{nom}', name: 'personne_show_nom_')]
     public function showPersonneByNom(string $nom, PersonneRepository $personneRepository): Response

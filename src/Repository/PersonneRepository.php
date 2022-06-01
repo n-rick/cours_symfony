@@ -46,7 +46,6 @@ class PersonneRepository extends ServiceEntityRepository
             $this->_em->flush();
         }
     }
-
     //    /**
     //     * @return Personne[] Returns an array of Personne objects
     //     */
@@ -143,6 +142,20 @@ class PersonneRepository extends ServiceEntityRepository
             'prenom' => $prenom,
         ]);
         return $result->fetchAllAssociative();
+    }
+
+    /**
+     * Avec une recherche par initiale avec createQuery (DQL)
+     * @return Personne[] Returns an array of Personne objects
+     */
+    public function findByOnlyPersonnes()
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p not instance of App\Entity\Etudiant')
+            ->andWhere('p not instance of App\Entity\Enseignant')
+            ->orderBy('p.id', 'ASC')
+            ->getQuery()
+            ->getResult();
     }
 
     //    public function findOneBySomeField($value): ?Personne
