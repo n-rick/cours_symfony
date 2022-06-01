@@ -77,20 +77,37 @@ class PersonneRepository extends ServiceEntityRepository
     //         ->getResult();
     // }
 
+    // /**
+    //  * Avec une recherche par initiale
+    //  * @return Personne[] Returns an array of Personne objects
+    //  */
+    // public function findByNomAndPrenom(string $nom, string $prenom): array
+    // {
+    //     return $this->createQueryBuilder('p')
+    //         ->andWhere('p.nom LIKE :nom')
+    //         ->setParameter('nom', '%' . $nom . '%')
+    //         ->andWhere('p.prenom LIKE :prenom')
+    //         ->setParameter('prenom', '%' . $prenom . '%')
+    //         ->orderBy('p.id', 'ASC')
+    //         ->getQuery()
+    //         ->getResult();
+    // }
+
     /**
-     * Avec une recherche par initiale
+     * Avec une recherche par initiale avec createQuery
      * @return Personne[] Returns an array of Personne objects
      */
     public function findByNomAndPrenom(string $nom, string $prenom): array
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.nom LIKE :nom')
-            ->setParameter('nom', '%' . $nom . '%')
-            ->andWhere('p.prenom LIKE :prenom')
-            ->setParameter('prenom', '%' . $prenom . '%')
-            ->orderBy('p.id', 'ASC')
-            ->getQuery()
-            ->getResult();
+        $query = $this->_em->createQuery(
+            'SELECT p
+            FROM App\Entity\Personne p
+            WHERE p.nom = :nom
+            and p.prenom = :prenom'
+        )->setParameter('nom', $nom)
+            ->setParameter('prenom', $prenom);
+        $result = $query->getResult();
+        return $result;
     }
 
     //    public function findOneBySomeField($value): ?Personne
